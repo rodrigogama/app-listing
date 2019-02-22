@@ -5,7 +5,7 @@ import categories from '../data/categories.json';
  * If it were a real API service, here we could've configure the headers, interceptors, etc.
  * For the sake of simplicity, I'm just returning a promise with the mock data.
  */
-export const fetchList = () => {
+export const fetchApps = () => {
   return new Promise(resolve =>
     setTimeout(() => {
       resolve({
@@ -19,7 +19,11 @@ export const fetchCategories = () => {
   return new Promise(resolve =>
     setTimeout(() => {
       resolve({
-        data: categories.sort()
+        data: categories.sort((a, b) => {
+          if (a.id < b.id) return -1;
+          if (a.id > b.id) return 1;
+          return 0;
+        })
       });
     }, 1500)
   );

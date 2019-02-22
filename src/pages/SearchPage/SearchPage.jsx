@@ -2,8 +2,9 @@ import React, { PureComponent } from 'react';
 import debounce from 'lodash.debounce';
 import SearchBar from '../../components/SearchBar';
 import { Nav, NavTitle, NavList, NavListItem } from '../../components/Nav';
-import { fetchCategories } from '../../services';
-import { Page } from './SearchPageStyles';
+import AppCard from '../../components/AppCard';
+import { fetchCategories, fetchApps } from '../../services';
+import { Page, ListContainer } from './SearchPageStyles';
 
 class SearchPage extends PureComponent {
   constructor(props) {
@@ -11,7 +12,8 @@ class SearchPage extends PureComponent {
 
     this.state = {
       searchTerm: '',
-      categories: []
+      categories: [],
+      items: []
     };
 
     this.filterList = this.filterList.bind(this);
@@ -24,6 +26,7 @@ class SearchPage extends PureComponent {
 
   componentDidMount() {
     fetchCategories().then(({ data }) => this.setState({ categories: data }));
+    fetchApps().then(({ data }) => this.setState({ items: data }));
   }
 
   onChangeHandler(ev) {
@@ -45,7 +48,7 @@ class SearchPage extends PureComponent {
   }
 
   render() {
-    const { searchTerm, categories } = this.state;
+    const { searchTerm, categories, items } = this.state;
 
     return (
       <Page>
@@ -63,7 +66,13 @@ class SearchPage extends PureComponent {
             ))}
           </NavList>
         </Nav>
-        <SearchBar value={searchTerm} onChange={this.onChangeHandler} />
+        <ListContainer>
+          <SearchBar value={searchTerm} onChange={this.onChangeHandler} />
+
+          {items.map(item => (
+            <AppCard {...item} />
+          ))}
+        </ListContainer>
       </Page>
     );
   }
