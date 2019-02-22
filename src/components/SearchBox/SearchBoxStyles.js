@@ -1,33 +1,34 @@
 import styled from 'styled-components';
 
-export const SearchBarContainer = styled.div`
+export const SearchBoxContainer = styled.div`
   position: relative;
+  width: 100%;
 `;
 
 export const Input = styled.input`
   font-size: 16px;
   font-weight: 300;
-  background-clip: padding-box;
   outline: 0;
-  -webkit-appearance: none;
+  border-radius: 12px;
   width: 100%;
-  resize: none;
-  padding: 16px;
-  padding-right: 60px;
+  padding: 16px 60px 16px 16px;
   border: 1px solid ${({ theme: { colors } }) => colors.lightGray};
   margin-bottom: 32px;
-  transition: all 200ms ease;
+  box-shadow: ${({ theme }) => theme.boxShadow.default};
+  transition-property: all;
+  transition-duration: ${({ theme }) => theme.transition.duration};
+  transition-timing-function: ${({ theme }) => theme.transition.timingFn};
 
   &:focus {
     border-color: ${({ theme: { colors } }) => colors.teal};
+    box-shadow: ${({ theme }) => theme.boxShadow.focused};
   }
 `;
 
 export const SearchIcon = styled.div`
   position: absolute;
   right: 0;
-  top: 0;
-  bottom: 32px;
+  top: 26px;
   width: 60px;
 
   &::before {
@@ -42,7 +43,9 @@ export const SearchIcon = styled.div`
     height: 2px;
     background: ${({ theme: { colors } }) => colors.lightGray};
     transform: rotate(45deg);
-    transition: all 0.5s;
+    transition-property: all;
+    transition-duration: ${({ theme }) => theme.transition.duration};
+    transition-timing-function: ${({ theme }) => theme.transition.timingFn};
 
     input:focus ~ & {
       background: ${({ theme: { colors } }) => colors.teal};
@@ -61,7 +64,9 @@ export const SearchIcon = styled.div`
     height: 20px;
     border-radius: 50%;
     border: 2px solid ${({ theme: { colors } }) => colors.lightGray};
-    transition: all 0.5s;
+    transition-property: all;
+    transition-duration: ${({ theme }) => theme.transition.duration};
+    transition-timing-function: ${({ theme }) => theme.transition.timingFn};
 
     input:focus ~ & {
       border-color: ${({ theme: { colors } }) => colors.teal};

@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import debounce from 'lodash.debounce';
-import SearchBar from '../../components/SearchBar';
-import { Nav, NavTitle, NavList, NavListItem } from '../../components/Nav';
+import SearchBox from '../../components/SearchBox';
 import AppCard from '../../components/AppCard';
+import { Filter, FilterItem } from '../../components/Filter';
 import { fetchCategories, fetchApps } from '../../services';
 import { Page, ListContainer } from './SearchPageStyles';
 
@@ -13,6 +13,7 @@ class SearchPage extends PureComponent {
     this.state = {
       searchTerm: '',
       categories: [],
+      selectedCategories: [],
       items: []
     };
 
@@ -39,7 +40,16 @@ class SearchPage extends PureComponent {
   }
 
   onCategoryClickHandler(ev) {
-    console.log(ev.currentTarget.dataset.category);
+    const { selectedCategories } = this.state;
+    const { category } = ev.currentTarget.dataset;
+    const catIndex = selectedCategories.findIndex(e => e === category);
+
+    this.setState(prevState => ({
+      selectedCategories:
+        catIndex > -1
+          ? selectedCategories.filter(e => e !== category)
+          : [...prevState.selectedCategories, category]
+    }));
   }
 
   filterList() {
@@ -48,11 +58,28 @@ class SearchPage extends PureComponent {
   }
 
   render() {
-    const { searchTerm, categories, items } = this.state;
+    const { searchTerm, categories, selectedCategories, items } = this.state;
 
     return (
       <Page>
-        <Nav>
+        <SearchBox value={searchTerm} onChange={this.onChangeHandler} />
+        <Filter>
+          {categories.map(cat => (
+            <FilterItem
+              key={cat.id}
+              onClick={this.onCategoryClickHandler}
+              data-category={cat.id}
+              active={selectedCategories.includes(cat.id)}
+            >
+              {cat.description}
+            </FilterItem>
+          ))}
+        </Filter>
+
+        {/* {items.map(item => (
+          <AppCard {...item} />
+        ))} */}
+        {/* <Nav>
           <NavTitle>Categories</NavTitle>
           <NavList>
             {categories.map(cat => (
@@ -67,12 +94,12 @@ class SearchPage extends PureComponent {
           </NavList>
         </Nav>
         <ListContainer>
-          <SearchBar value={searchTerm} onChange={this.onChangeHandler} />
+          
 
           {items.map(item => (
             <AppCard {...item} />
           ))}
-        </ListContainer>
+        </ListContainer> */}
       </Page>
     );
   }

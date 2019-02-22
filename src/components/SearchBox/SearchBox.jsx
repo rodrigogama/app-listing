@@ -1,25 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SearchBarContainer, Input, SearchIcon } from './SearchBarStyles';
+import { SearchBoxContainer, Input, SearchIcon } from './SearchBoxStyles';
 
-const SearchBar = ({ value, onClear, ...props }) => {
+const SearchBox = ({ value, onClear, ...props }) => {
   const hasValue = Boolean(value);
   return (
-    <SearchBarContainer>
+    <SearchBoxContainer>
       <Input {...props} value={value} />
       <SearchIcon onClick={hasValue ? onClear : undefined} />
-    </SearchBarContainer>
+    </SearchBoxContainer>
   );
 };
 
-SearchBar.defaultProps = {
+SearchBox.defaultProps = {
   value: null,
   onClear: () => {}
 };
 
-SearchBar.propTypes = {
+SearchBox.propTypes = {
   value: PropTypes.string,
   onClear: PropTypes.func
 };
 
-export default SearchBar;
+export default SearchBox;

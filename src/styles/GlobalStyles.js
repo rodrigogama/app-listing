@@ -14,10 +14,13 @@ const GlobalStyles = createGlobalStyle`
 
   #root {
     min-height: 100%;
+    background-color: #e6eaea;
   }
 
   * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
   }
 `;
 
