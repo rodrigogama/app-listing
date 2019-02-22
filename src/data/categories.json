@@ -1,0 +1,7 @@
+[
+  { "id": "voice", "description": "Voice Analytics" },
+  { "id": "reporting", "description": "Reporting" },
+  { "id": "optimization", "description": "Optimization" },
+  { "id": "channels", "description": "Channels" },
+  { "id": "dialer", "description": "Dialer" }
+]
