@@ -6,10 +6,12 @@ export const FilterContainer = styled.ol`
   flex-flow: row wrap;
   align-items: center;
   justify-content: flex-start;
+  margin-bottom: 12px;
 `;
 
 export const FilterItemContainer = styled.li`
   margin-right: 12px;
+  margin-bottom: 12px;
   display: inline-block;
   height: 32px;
   font-size: 13px;
@@ -21,6 +23,7 @@ export const FilterItemContainer = styled.li`
   cursor: pointer;
   color: ${({ theme, active }) => (active ? theme.colors.white : theme.colors.black)};
   background-color: ${({ theme, active }) => (active ? theme.colors.teal : theme.colors.white)};
+  box-shadow: ${({ theme }) => theme.boxShadow.default};
   transition-property: all;
   transition-duration: ${({ theme }) => theme.transition.duration};
   transition-timing-function: ${({ theme }) => theme.transition.timingFn};

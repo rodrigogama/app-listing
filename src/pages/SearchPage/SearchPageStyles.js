@@ -13,10 +13,10 @@ export const Page = styled.main`
 `;
 
 export const ListContainer = styled.section`
-  flex: 1;
-  order: 2;
-  text-align: left;
-  padding: 16px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 `;
 
 export const Label = styled.div``;

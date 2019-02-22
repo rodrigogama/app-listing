@@ -13,7 +13,7 @@ export const Input = styled.input`
   width: 100%;
   padding: 16px 60px 16px 16px;
   border: 1px solid ${({ theme: { colors } }) => colors.lightGray};
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   box-shadow: ${({ theme }) => theme.boxShadow.default};
   transition-property: all;
   transition-duration: ${({ theme }) => theme.transition.duration};

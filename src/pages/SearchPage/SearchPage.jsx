@@ -76,30 +76,9 @@ class SearchPage extends PureComponent {
           ))}
         </Filter>
 
-        {/* {items.map(item => (
-          <AppCard {...item} />
-        ))} */}
-        {/* <Nav>
-          <NavTitle>Categories</NavTitle>
-          <NavList>
-            {categories.map(cat => (
-              <NavListItem
-                key={cat.id}
-                onClick={this.onCategoryClickHandler}
-                data-category={cat.id}
-              >
-                {cat.description}
-              </NavListItem>
-            ))}
-          </NavList>
-        </Nav>
         <ListContainer>
-          
-
-          {items.map(item => (
-            <AppCard {...item} />
-          ))}
-        </ListContainer> */}
+          {items.map(e => <AppCard {...e} />)}
+        </ListContainer>
       </Page>
     );
   }

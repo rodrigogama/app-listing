@@ -6,7 +6,7 @@ export const Card = styled.div`
   justify-content: space-between;
   background-color: white;
   width: 100%;
-  height: 172px;
+  min-height: 172px;
   border-radius: 4px;
   padding: 24px;
   position: relative;
