@@ -13,10 +13,10 @@ export const Page = styled.main`
 `;
 
 export const ListContainer = styled.section`
-  /* border: 1px solid black; */
   display: grid;
   grid-gap: 16px;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  margin-bottom: 24px;
 `;
 
 export const Label = styled.div``;

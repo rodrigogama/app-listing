@@ -3,6 +3,7 @@ import debounce from 'lodash.debounce';
 import SearchBox from '../../components/SearchBox';
 import AppCard from '../../components/AppCard';
 import { Filter, FilterItem } from '../../components/Filter';
+import Pagination from '../../components/Pagination';
 import { fetchCategories, fetchApps } from '../../services';
 import { Page, ListContainer } from './SearchPageStyles';
 
@@ -14,7 +15,9 @@ class SearchPage extends PureComponent {
       searchTerm: '',
       categories: [],
       selectedCategories: [],
-      items: []
+      listApps: [],
+      currentPage: 0,
+      pageOfItems: []
     };
 
     this.filterList = this.filterList.bind(this);
@@ -22,12 +25,14 @@ class SearchPage extends PureComponent {
     this.onChangeHandler = this.onChangeHandler.bind(this);
     this.onCategoryClickHandler = this.onCategoryClickHandler.bind(this);
 
+    this.onPaginateHandler = this.onPaginateHandler.bind(this);
+
     this.filterList = debounce(this.filterList, 1000);
   }
 
   componentDidMount() {
     fetchCategories().then(({ data }) => this.setState({ categories: data }));
-    fetchApps().then(({ data }) => this.setState({ items: data }));
+    fetchApps().then(({ data }) => this.setState({ listApps: data }));
   }
 
   onChangeHandler(ev) {
@@ -52,17 +57,23 @@ class SearchPage extends PureComponent {
     }));
   }
 
+  onPaginateHandler(items) {
+    console.log('paginate');
+    console.log(items);
+    this.setState({ pageOfItems: items });
+  }
+
   filterList() {
     const { searchTerm } = this.state;
     console.log(searchTerm);
   }
 
   render() {
-    const { searchTerm, categories, selectedCategories, items } = this.state;
+    const { searchTerm, categories, selectedCategories, listApps, pageOfItems } = this.state;
 
     return (
       <Page>
-        <SearchBox value={searchTerm} onChange={this.onChangeHandler} />
+        <SearchBox placeholder="Search by app" value={searchTerm} onChange={this.onChangeHandler} />
         <Filter>
           {categories.map(cat => (
             <FilterItem
@@ -77,8 +88,12 @@ class SearchPage extends PureComponent {
         </Filter>
 
         <ListContainer>
-          {items.map(e => <AppCard key={e.id} {...e} />)}
+          {pageOfItems.map(e => (
+            <AppCard key={e.id} {...e} />
+          ))}
         </ListContainer>
+
+        <Pagination onChangePage={this.onPaginateHandler} items={listApps} pageSize={3} />
       </Page>
     );
   }
