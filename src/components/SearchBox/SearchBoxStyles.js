@@ -12,6 +12,7 @@ export const Input = styled.input`
   border-radius: 12px;
   width: 100%;
   padding: 16px 60px 16px 16px;
+  color: ${({ theme: { colors } }) => colors.black};
   border: 1px solid ${({ theme: { colors } }) => colors.lightGray};
   margin-bottom: 24px;
   box-shadow: ${({ theme }) => theme.boxShadow.default};

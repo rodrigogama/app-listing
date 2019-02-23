@@ -8,15 +8,15 @@ export const Page = styled.main`
   margin: auto;
   display: flex;
   flex-direction: column;
-  padding: 32px;
+  padding: 32px 0;
   background-color: ${({ theme: { colors } }) => colors.lightGray};
 `;
 
 export const ListContainer = styled.section`
-  border: 1px solid black;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+  /* border: 1px solid black; */
+  display: grid;
+  grid-gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 `;
 
 export const Label = styled.div``;

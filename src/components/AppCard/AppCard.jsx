@@ -1,15 +1,16 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import {
   Card,
   CardHeader,
   CardBody,
-  DescriptionContainer,
+  CardFooter,
+  SubscriptionContainer,
   CardTitle,
+  CardSubTitle,
   CardDescription,
-  CardTags,
   SubscriptionName,
   SubscriptionPrice
-} from './CardStyles';
+} from './AppCardStyles';
 
 const formatPrice = value =>
   value > 0
@@ -23,21 +24,23 @@ const formatPrice = value =>
 const AppCard = ({ name, description, categories, subscriptions }) => (
   <Card>
     <CardHeader>
-      <DescriptionContainer>
-        <CardTitle>{name}</CardTitle>
-        <CardDescription>{description}</CardDescription>
-      </DescriptionContainer>
-      <CardTags>{categories.join(' / ')}</CardTags>
+      <CardTitle>{name}</CardTitle>
+      <CardSubTitle>{categories.join(' / ')}</CardSubTitle>
     </CardHeader>
     <CardBody>
-      {subscriptions.map(({ name: subsName, price }) => (
-        <Fragment>
-          <SubscriptionName>{subsName}</SubscriptionName>
-          <SubscriptionPrice>{formatPrice(price)}</SubscriptionPrice>
-          {price > 0 && <sup>&euro;</sup>}
-        </Fragment>
-      ))}
+      <CardDescription>{description}</CardDescription>
     </CardBody>
+    <CardFooter>
+      {subscriptions.map(({ name: subsName, price }, index) => (
+        <SubscriptionContainer key={`subs_${index}`}>
+          <SubscriptionName>{subsName}</SubscriptionName>
+          <SubscriptionPrice>
+            {formatPrice(price)}
+            {price > 0 && <sup>&euro;</sup>}
+          </SubscriptionPrice>
+        </SubscriptionContainer>
+      ))}
+    </CardFooter>
   </Card>
 );
 

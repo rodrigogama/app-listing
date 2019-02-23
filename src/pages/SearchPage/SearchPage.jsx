@@ -77,7 +77,7 @@ class SearchPage extends PureComponent {
         </Filter>
 
         <ListContainer>
-          {items.map(e => <AppCard {...e} />)}
+          {items.map(e => <AppCard key={e.id} {...e} />)}
         </ListContainer>
       </Page>
     );

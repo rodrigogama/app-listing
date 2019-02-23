@@ -1,6 +1,6 @@
 const theme = {
   container: {
-    maxWidth: '800px'
+    maxWidth: '872px'
   },
   colors: {
     white: '#FFFFFF',
@@ -8,6 +8,7 @@ const theme = {
     gray: '#f4f7f6',
     grayDark: '#6c7680',
     teal: '#4bc3c9',
+    purple: '#62479C',
     lightGray: '#e6eaea'
   },
   transition: {
