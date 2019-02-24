@@ -115,7 +115,7 @@ Pagination.defaultProps = {
 };
 
 Pagination.propTypes = {
-  items: PropTypes.array,
+  items: PropTypes.arrayOf(PropTypes.object),
   onChangePage: PropTypes.func.isRequired,
   initialPage: PropTypes.number,
   pageSize: PropTypes.number
