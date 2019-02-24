@@ -15,6 +15,7 @@ const GlobalStyles = createGlobalStyle`
   #root {
     min-height: 100%;
     background-color: #e6eaea;
+    padding: 0 32px;
   }
 
   * {

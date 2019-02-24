@@ -15,7 +15,7 @@ export const Page = styled.main`
 export const ListContainer = styled.section`
   display: grid;
   grid-gap: 16px;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, 280px);
   margin-bottom: 24px;
 `;
 

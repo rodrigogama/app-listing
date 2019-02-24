@@ -34,7 +34,7 @@ export const PaginationNumberItem = styled.li`
   ${({ active, theme }) => active && `color: ${theme.colors.teal}`}
 
   &:hover {
-    color: ${({ active, theme }) => theme.colors.teal};
+    color: ${({ theme }) => theme.colors.teal};
   }
 `;
 
@@ -44,15 +44,15 @@ export const PaginationArrowButton = styled.button`
   height: 50px;
   width: 50px;
   border-radius: 12px;
-  cursor: pointer;
   transition-property: all;
   transition-duration: ${({ theme }) => theme.transition.duration};
   transition-timing-function: ${({ theme }) => theme.transition.timingFn};
   background-color: ${({ theme }) => theme.colors.white};
   box-shadow: ${({ theme }) => theme.boxShadow.default};
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme, disabled }) => (disabled ? theme.colors.lightGray : theme.colors.black)};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
 
   &:hover {
-    color: ${({ active, theme }) => theme.colors.teal};
+    color: ${({ theme, disabled }) => !disabled && theme.colors.teal};
   }
 `;

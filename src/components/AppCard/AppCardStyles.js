@@ -20,6 +20,10 @@ export const Card = styled.div`
   }
 `;
 
+export const SkeletonCard = styled(Card)`
+  padding: 16px;
+`;
+
 export const CardHeader = styled.header`
   display: flex;
   flex-direction: column;

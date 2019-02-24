@@ -1,4 +1,6 @@
 import React, { PureComponent } from 'react';
+import debounce from 'lodash.debounce';
+import { fetchApps, fetchCategories } from '../services';
 
 const SearchContext = React.createContext();
 
@@ -7,41 +9,109 @@ class SearchProvider extends PureComponent {
     super(props);
 
     this.state = {
+      isLoading: true,
+      searchTerm: '',
       listApps: [],
-      isLoading: false
+      listAppsPaginated: [],
+      listCategories: [],
+      selectedCategories: []
     };
 
-    this.toggleLoading = this.toggleLoading.bind(this);
-    this.onSelectRegionalHandler = this.onSelectRegionalHandler.bind(this);
+    this.filter = this.filter.bind(this);
+    this.filterOnType = this.filterOnType.bind(this);
+    this.onChangeHandler = this.onChangeHandler.bind(this);
+    this.onPaginateHandler = this.onPaginateHandler.bind(this);
+    this.onCategoryFilterHandler = this.onCategoryFilterHandler.bind(this);
+
+    this.filterOnType = debounce(this.filterOnType, 200);
   }
 
-  onSelectRegionalHandler(selected) {
-    this.setState({ listRegionais: selected ? [...selected] : [] });
+  componentDidMount() {
+    this.loadData();
   }
 
-  toggleLoading(isLoading = false) {
-    this.setState({ isLoading });
+  onCategoryFilterHandler(ev) {
+    const { selectedCategories } = this.state;
+    const { category } = ev.currentTarget.dataset;
+    const catIndex = selectedCategories.findIndex(e => e === category);
+    const newSelectedCategories =
+      catIndex > -1
+        ? selectedCategories.filter(e => e !== category)
+        : [...selectedCategories, category];
+
+    this.setState(
+      {
+        selectedCategories: newSelectedCategories
+      },
+      () => this.filter()
+    );
+  }
+
+  onPaginateHandler(items) {
+    this.setState({ listAppsPaginated: items });
+  }
+
+  onChangeHandler(ev) {
+    this.setState({ searchTerm: ev.target.value });
+    this.filterOnType();
+  }
+
+  filterOnType() {
+    this.filter();
+  }
+
+  async filter() {
+    await this.setState({ isLoading: true });
+
+    const { searchTerm, selectedCategories } = this.state;
+    const { data } = await fetchApps({ searchTerm, categories: selectedCategories });
+
+    this.setState({
+      listApps: data,
+      isLoading: false
+    });
+  }
+
+  loadData() {
+    const promises = [fetchCategories(), fetchApps()];
+
+    Promise.all(promises).then(responses => {
+      const [categoryResponse, appsResponse] = responses;
+      this.setState({
+        listCategories: categoryResponse.data,
+        listApps: appsResponse.data,
+        isLoading: false
+      });
+    });
   }
 
   render() {
-    const { listRegionais, isLoading } = this.state;
+    const {
+      isLoading,
+      searchTerm,
+      listApps,
+      listAppsPaginated,
+      listCategories,
+      selectedCategories
+    } = this.state;
     const { children } = this.props;
 
     const value = {
-      listRegionais,
       isLoading,
-      toggleLoading: this.toggleLoading,
-      onSelectRegional: this.onSelectRegionalHandler
+      searchTerm,
+      listApps,
+      listAppsPaginated,
+      listCategories,
+      selectedCategories,
+      onChangeSearch: this.onChangeHandler,
+      onCategoryFilter: this.onCategoryFilterHandler,
+      onPaginate: this.onPaginateHandler
     };
 
-    return (
-      <SearchContext.Provider value={value}>
-        { children }
-      </SearchContext.Provider>
-    );
+    return <SearchContext.Provider value={value}>{children}</SearchContext.Provider>;
   }
 }
 
-const BackOfficeConsumer = SearchContext.Consumer;
+const SearchConsumer = SearchContext.Consumer;
 
-export { SearchProvider as BackOfficeProvider, BackOfficeConsumer };
+export { SearchProvider, SearchConsumer };

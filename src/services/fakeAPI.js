@@ -1,15 +1,17 @@
 import apps from '../data/apps.json';
-import categories from '../data/categories.json';
+import categoriesList from '../data/categories.json';
 
 /**
  * If it were a real API service, here we could've configure the headers, interceptors, etc.
  * For the sake of simplicity, I'm just returning a promise with the mock data.
  */
-export const fetchApps = () => {
+export const fetchApps = filterOptions => {
   return new Promise(resolve =>
     setTimeout(() => {
+      const listApps = filter(filterOptions);
+      const ordered = orderByPlansPrice(listApps);
       resolve({
-        data: orderByPlansPrice(apps)
+        data: ordered
       });
     }, 1500)
   );
@@ -19,7 +21,7 @@ export const fetchCategories = () => {
   return new Promise(resolve =>
     setTimeout(() => {
       resolve({
-        data: categories.sort((a, b) => {
+        data: categoriesList.sort((a, b) => {
           if (a.id < b.id) return -1;
           if (a.id > b.id) return 1;
           return 0;
@@ -38,3 +40,18 @@ const orderByPlansPrice = data =>
     const totalPlansPriceB = b.subscriptions.reduce((total, obj) => total + obj.price, 0);
     return totalPlansPriceA - totalPlansPriceB;
   });
+
+const filter = (filterOptions = {}) => {
+  if (!Object.keys(filterOptions).length) return apps;
+
+  const { searchTerm = '', categories = [] } = filterOptions;
+
+  const filteredByCategories = categories.length
+    ? apps.filter(app => {
+        const hasCategories = app.categories.filter(cat => categories.includes(cat));
+        return hasCategories.length ? app : null;
+      })
+    : apps;
+
+  return filteredByCategories.filter(app => app.name.toLowerCase().includes(searchTerm));
+};
